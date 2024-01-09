@@ -5,6 +5,7 @@ import { initializeApp } from "firebase/app";
 
 // Your web app's Firebase configuration
 import {getFirestore} from "firebase/firestore"
+import {getStorage,ref} from "firebase/storage"
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_API_KEY,
   authDomain: process.env.REACT_APP_AUTH_DOMAIN,
@@ -19,4 +20,5 @@ const firebaseConfig = {
 const app =  initializeApp(firebaseConfig) ;
 
  export const db= getFirestore(app) ;
+ export const storage=getStorage(app);
 export default app 
