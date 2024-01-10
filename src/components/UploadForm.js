@@ -4,7 +4,7 @@ import Firestore from "../handlers/firestore";
 import Storage from "../handlers/storage";
 
 const { writeDoc } = Firestore
-const { uploadFile } = Storage 
+const { uploadFile,downloadFile} = Storage 
 
 const Preview = () => {
   const { state } = useContext(Context)
@@ -28,11 +28,15 @@ const UploadForm = () => {
   const handleOnChange = (e) => dispatch({ type: 'setInputs', payload: { value: e}})
   const handleOnSubmit = (e) => {
     e.preventDefault()
-    uploadFile(state.inputs).then(media => {
-      debugger
-      writeDoc(inputs, "items").then(console.log)
-      dispatch({ type: 'setItem'})
-      dispatch({ type: "collapse", payload: { bool: false }})
+    uploadFile(state.inputs)
+    .then(downloadFile)
+    .then(url=> {
+    
+      writeDoc({...inputs,path:url} ,"items").then(()=>{
+        dispatch({ type: 'setItem'})
+        dispatch({ type: "collapse", payload: { bool: false }})
+      })
+      
     })
 
   }
